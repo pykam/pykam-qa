@@ -1,0 +1,76 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: my-plugin-name\n"
+"POT-Creation-Date: 2025-12-01 16:33+0700\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Myname <myemail@gmail.com>\n"
+"Language-Team: My Super Team\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
+"_nx_noop:1,2,3c;esc_attr__;esc_attr_e;esc_html__;esc_html_e\n"
+"X-Poedit-Basepath: ..\n"
+"X-Generator: Poedit 3.5\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: node_modules\n"
+
+#: qa-post-type.php:21
+msgid "Pykam QA"
+msgstr "Вопросы и ответы"
+
+#: qa-post-type.php:22 qa-post-type.php:24
+msgid "Question & Answer"
+msgstr "Вопрос - Ответ"
+
+#: qa-post-type.php:23
+msgid "Q&A"
+msgstr "Вопрос - Ответ"
+
+#: qa-post-type.php:25
+msgid "Add New"
+msgstr "Добавить новый"
+
+#: qa-post-type.php:26
+msgid "Add New Question"
+msgstr "Добавить новый вопрос"
+
+#: qa-post-type.php:27
+msgid "New Question"
+msgstr "Новый вопрос"
+
+#: qa-post-type.php:28
+msgid "Edit Question"
+msgstr "Редактировать вопрос"
+
+#: qa-post-type.php:29
+msgid "View Question"
+msgstr "Посмотреть вопрос"
+
+#: qa-post-type.php:30
+msgid "All questions"
+msgstr "Все вопросы"
+
+#: qa-post-type.php:31
+msgid "Search Questions"
+msgstr "Поиск вопросов"
+
+#: qa-post-type.php:32
+msgid "Parent Question:"
+msgstr "Родительский вопрос:"
+
+#: qa-post-type.php:33
+msgid "No questions found."
+msgstr "Вопросы не найдены."
+
+#: qa-post-type.php:34
+msgid "No questions found in the deleted items bin."
+msgstr "В корзине не найдено вопросов."
+
+#: qa-post-type.php:87
+msgid "The feed is not available for this type of post"
+msgstr "Посты не доступны в этом типе записи"
