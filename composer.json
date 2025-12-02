@@ -1,0 +1,16 @@
+{
+    "name": "pykam/pykam-qa",
+    "description": "A Q&A Wordpress plugin",
+    "autoload": {
+        "psr-4": {
+            "PykamQA\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Albert Kuular",
+            "email": "albert.kuular@gmail.com"
+        }
+    ],
+    "require": {}
+}
