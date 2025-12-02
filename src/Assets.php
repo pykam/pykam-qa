@@ -12,6 +12,7 @@ class Assets
     {
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_styles'));
         add_action('admin_footer', array($this, 'add_admin_footer_scripts'));
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_public_styles'));
     }
 
     public function enqueue_admin_styles($hook) {
@@ -24,6 +25,10 @@ class Assets
             wp_enqueue_style( 'pykam-qa-admin', constant('PYKAM_QA_URL') . '/assets/admin/styles.css' );
         }
     } 
+
+    public function enqueue_public_styles() {
+        wp_enqueue_style('pykam-qa-styles', constant('PYKAM_QA_URL') . '/assets/public/pykam-qa.css');
+    }
 
     public function add_admin_footer_scripts() {
         global $post_type;

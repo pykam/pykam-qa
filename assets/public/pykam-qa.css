@@ -1,0 +1,15 @@
+.pykam-qa {
+    margin-bottom: 2.5rem;
+    box-shadow: 0px 0px 5px 0px #E8E8EA;
+    padding: 1rem;
+}
+
+.pykam-qa-answer-section {
+    border-left: 5px solid #cacaca;
+    padding-left: 1rem;
+}
+
+.pykam-qa-header {
+    font-size: 0.9rem;
+    font-weight: 300;
+}
