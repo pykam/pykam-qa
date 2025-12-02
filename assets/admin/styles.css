@@ -1,0 +1,154 @@
+.pykam-field-group {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    border-left: 4px solid #2271b1;
+}
+.pykam-field-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+.pykam-info-box {
+    margin-top: 20px;
+    padding: 10px;
+    background: #fff8e5;
+    border: 1px solid #e6db55;
+    border-radius: 3px;
+    font-size: 12px;
+}
+.pykam-border-green {
+    border-left: 4px solid #22b17dff;
+}
+
+.pykam-relations-fields {
+    margin-bottom: 20px;
+}
+
+.attached-post-display {
+    margin-bottom: 10px;
+}
+
+.attached-post-actions {
+    margin-top: 8px;
+}
+
+.attached-post-actions .button {
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+#pykam-qa-post-selector {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh;
+    background: white;
+    border: 1px solid #ccd0d4;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    z-index: 100001;
+}
+
+.pykam-modal-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.pykam-modal-header {
+    padding: 15px;
+    background: #f1f1f1;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pykam-modal-body {
+    padding: 15px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.post-search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.post-search-box input {
+    flex: 1;
+}
+
+.posts-list {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.post-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post-item:hover {
+    background: #f5f5f5;
+}
+
+.post-item.selected {
+    background: #e7f5ff;
+}
+
+.post-item .post-title {
+    font-weight: 500;
+}
+
+.post-item .post-type {
+    font-size: 11px;
+    background: #f0f0f1;
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: #666;
+}
+
+.posts-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 5px;
+}
+
+.pagination-btn {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    background: #f7f7f7;
+    cursor: pointer;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background: #e5e5e5;
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.post-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 100000;
+}
