@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: my-plugin-name\n"
-"POT-Creation-Date: 2025-12-01 16:33+0700\n"
+"POT-Creation-Date: 2025-12-02 22:17+0700\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Myname <myemail@gmail.com>\n"
 "Language-Team: My Super Team\n"
@@ -19,58 +19,190 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: node_modules\n"
 
-#: qa-post-type.php:21
+#: src/Assets.php:113 src/Metabox.php:208
+msgid "Loading posts..."
+msgstr "Загрузка постов..."
+
+#: src/Assets.php:131
+msgid "Error loading posts"
+msgstr "Ошибка загрузки постов"
+
+#: src/Assets.php:158
+msgid "View"
+msgstr "Смотреть"
+
+#: src/Assets.php:173
+msgid "Previous"
+msgstr "Предыдущий"
+
+#: src/Assets.php:183
+msgid "Next"
+msgstr "Следующий"
+
+#: src/Assets.php:191
+msgid "No posts found"
+msgstr "Посты не найдены"
+
+#: src/Assets.php:213
+msgid "Post selected successfully!"
+msgstr "Пост выбран!"
+
+#: src/Metabox.php:22
+msgid "Answer Details"
+msgstr "Ответ"
+
+#: src/Metabox.php:31
+msgid "Post Relations"
+msgstr "Связанный пост"
+
+#: src/Metabox.php:41
+msgid "Additional Information"
+msgstr "Доп. информация"
+
+#: src/Metabox.php:63
+msgid "Answer:"
+msgstr "Ответ:"
+
+#: src/Metabox.php:108
+msgid "Attached to post:"
+msgstr "Прикреплено к посту:"
+
+#: src/Metabox.php:116
+msgid "No post selected"
+msgstr "Нет выбранной записи"
+
+#: src/Metabox.php:123 src/Metabox.php:190
+msgid "Select Post"
+msgstr "Выбрать запись"
+
+#: src/Metabox.php:131
+msgid "Remove"
+msgstr "Удалить"
+
+#: src/Metabox.php:138
+msgid "Edit Post"
+msgstr "Редактировать пост"
+
+#: src/Metabox.php:147
+msgid "Current post:"
+msgstr "Текущий пост:"
+
+#: src/Metabox.php:162
+msgid "Filter by post type:"
+msgstr "Фильтрация по типу постов:"
+
+#: src/Metabox.php:179
+msgid "Note:"
+msgstr "Заметка:"
+
+#: src/Metabox.php:180
+msgid ""
+"Link this Q&A to a specific post. Useful for creating FAQ sections for "
+"individual products/articles."
+msgstr ""
+"Свяжите этот вопрос и ответ с конкретным постом. Полезно для создания "
+"разделов часто задаваемых вопросов для отдельных продуктов /статей."
+
+#: src/Metabox.php:198
+msgid "Search posts..."
+msgstr "Поиск постов..."
+
+#: src/Metabox.php:201
+msgid "Search"
+msgstr "Поиск"
+
+#: src/Metabox.php:229
+msgid "Question Author:"
+msgstr "Автор:"
+
+#: src/Metabox.php:236
+msgid "Enter name"
+msgstr "Введите имя"
+
+#: src/Metabox.php:242
+msgid "Answer Date:"
+msgstr "Дата:"
+
+#: src/Metabox.php:254
+msgid "Answer Author:"
+msgstr "Автор:"
+
+#: src/Metabox.php:261
+msgid "Enter expert name"
+msgstr "Введите имя эксперта"
+
+#: src/Metabox.php:266
+msgid "Created:"
+msgstr "Создано:"
+
+#: src/Metabox.php:268
+msgid "Last modified:"
+msgstr "Последнее изменение:"
+
+#: src/PostType.php:24
 msgid "Pykam QA"
 msgstr "Вопросы и ответы"
 
-#: qa-post-type.php:22 qa-post-type.php:24
+#: src/PostType.php:25 src/PostType.php:27
 msgid "Question & Answer"
 msgstr "Вопрос - Ответ"
 
-#: qa-post-type.php:23
+#: src/PostType.php:26
 msgid "Q&A"
 msgstr "Вопрос - Ответ"
 
-#: qa-post-type.php:25
+#: src/PostType.php:28
 msgid "Add New"
 msgstr "Добавить новый"
 
-#: qa-post-type.php:26
+#: src/PostType.php:29
 msgid "Add New Question"
 msgstr "Добавить новый вопрос"
 
-#: qa-post-type.php:27
+#: src/PostType.php:30
 msgid "New Question"
 msgstr "Новый вопрос"
 
-#: qa-post-type.php:28
+#: src/PostType.php:31
 msgid "Edit Question"
 msgstr "Редактировать вопрос"
 
-#: qa-post-type.php:29
+#: src/PostType.php:32
 msgid "View Question"
 msgstr "Посмотреть вопрос"
 
-#: qa-post-type.php:30
+#: src/PostType.php:33
 msgid "All questions"
 msgstr "Все вопросы"
 
-#: qa-post-type.php:31
+#: src/PostType.php:34
 msgid "Search Questions"
 msgstr "Поиск вопросов"
 
-#: qa-post-type.php:32
+#: src/PostType.php:35
 msgid "Parent Question:"
 msgstr "Родительский вопрос:"
 
-#: qa-post-type.php:33
+#: src/PostType.php:36
 msgid "No questions found."
 msgstr "Вопросы не найдены."
 
-#: qa-post-type.php:34
+#: src/PostType.php:37
 msgid "No questions found in the deleted items bin."
 msgstr "В корзине не найдено вопросов."
 
-#: qa-post-type.php:87
+#: src/PostType.php:90
 msgid "The feed is not available for this type of post"
 msgstr "Посты не доступны в этом типе записи"
+
+#: template-parts/qa-template.php:12
+msgid "Question Date"
+msgstr "Дата"
+
+#: template-parts/qa-template.php:13
+msgid "Question Author"
+msgstr "Автор"
+
+#: template-parts/qa-template.php:21
+msgid "Respond"
+msgstr "Отвечает"
