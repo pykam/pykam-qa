@@ -19,7 +19,7 @@ class MetaBox {
         // Основной метабокс
         add_meta_box(
             'pykam_qa_main',
-            __('Question & Answer Details', 'pykam-qa'),
+            __('Answer Details', 'pykam-qa'),
             array($this, 'render_main_metabox'),
             'pykam-qa',
             'normal',
@@ -278,7 +278,7 @@ class MetaBox {
             'question_author' => get_post_meta($post_id, '_pykam_qa_question_author', true),
             'answer_content' => get_post_meta($post_id, '_pykam_qa_answer_content', true),
             'answer_author' => get_post_meta($post_id, '_pykam_qa_answer_author', true) ?: wp_get_current_user()->display_name,
-            'answer_date' => get_post_meta($post_id, '_pykam_qa_answer_date', true) ?: current_time('Y-m-d'),
+            'answer_date' => get_post_meta($post_id, '_pykam_qa_answer_date', true) ? date('Y-m-d', get_post_meta($post_id, '_pykam_qa_answer_date', true)) : current_time('Y-m-d'),
         );
     }
     
@@ -342,10 +342,15 @@ class MetaBox {
                 'answer_author' => 'sanitize_text_field',
                 'answer_date' => 'sanitize_text_field',
             );
+
+            // $fields['answer_date'] = strtotime($fields['answer_date']);
             
             foreach ($fields as $field => $sanitize_callback) {
                 if (isset($data[$field])) {
                     $value = call_user_func($sanitize_callback, $data[$field]);
+                    if ($field === 'answer_date') {
+                        $value = strtotime($value);
+                    }
                     update_post_meta($post_id, '_pykam_qa_' . $field, $value);
                 }
             }
