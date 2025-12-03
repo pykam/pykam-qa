@@ -7,6 +7,12 @@ if (!defined('ABSPATH')) exit;
  * CPT metaboxes
  */
 class MetaBox {
+
+    const QUESTION_AUTHOR = '_pykam_qa_question_author';
+    const ANSWER = '_pykam_qa_answer_content';
+    const ANSWER_AUTHOR = '_pykam_qa_answer_author';
+    const ANSWER_DATE = '_pykam_qa_answer_date';
+    const ATTACHED_POST = '_pykam_qa_attached_post_id';
     
     public function __construct() {
         add_action('add_meta_boxes', array($this, 'register_metaboxes'));
@@ -15,7 +21,6 @@ class MetaBox {
     }
     
     public function register_metaboxes() {
-        // Основной метабокс
         add_meta_box(
             'pykam_qa_main',
             __('Answer Details', 'pykam-qa'),
@@ -27,14 +32,13 @@ class MetaBox {
 
         add_meta_box(
             'pykam_qa_relations',
-            __('Post Relations', 'pykam-qa'), // Новый метабокс для связей
+            __('Post Relations', 'pykam-qa'), 
             array($this, 'render_relations_metabox'),
             'pykam-qa',
             'side',
             'default'
         );
         
-        // Дополнительный метабокс
         add_meta_box(
             'pykam_qa_additional',
             __('Additional Information', 'pykam-qa'),
@@ -47,11 +51,9 @@ class MetaBox {
     }
     
     public function render_main_metabox($post) {
-        // Nonce для безопасности
         wp_nonce_field(basename(__FILE__), 'pykam_qa_fields_nonce');
-        // wp_nonce_field('pykam_qa_save', 'pykam_qa_nonce');
         
-        // Получаем текущие значения
+        // Get current value
         $fields = $this->get_field_values($post->ID);
         ?>
         <div class="pykam-qa-container">
@@ -80,7 +82,7 @@ class MetaBox {
     public function render_relations_metabox($post) {
         
         // Получаем прикрепленный пост
-        $attached_post_id = get_post_meta($post->ID, '_pykam_qa_attached_post_id', true);
+        $attached_post_id = get_post_meta($post->ID, self::ATTACHED_POST, true);
         $attached_post_title = '';
         
         if ($attached_post_id) {
@@ -274,10 +276,10 @@ class MetaBox {
     
     private function get_field_values($post_id) {
         return array(
-            'question_author' => get_post_meta($post_id, '_pykam_qa_question_author', true),
-            'answer_content' => get_post_meta($post_id, '_pykam_qa_answer_content', true),
-            'answer_author' => get_post_meta($post_id, '_pykam_qa_answer_author', true) ?: wp_get_current_user()->display_name,
-            'answer_date' => get_post_meta($post_id, '_pykam_qa_answer_date', true) ? date('Y-m-d', get_post_meta($post_id, '_pykam_qa_answer_date', true)) : current_time('Y-m-d'),
+            'question_author' => get_post_meta($post_id, self::QUESTION_AUTHOR, true),
+            'answer_content' => get_post_meta($post_id, self::ANSWER, true),
+            'answer_author' => get_post_meta($post_id, self::ANSWER_AUTHOR, true) ?: wp_get_current_user()->display_name,
+            'answer_date' => get_post_meta($post_id, self::ANSWER_DATE, true) ? date('Y-m-d', get_post_meta($post_id, '_pykam_qa_answer_date', true)) : current_time('Y-m-d'),
         );
     }
     
@@ -310,20 +312,20 @@ class MetaBox {
             if ($attached_post_id > 0) {
                 // Проверяем, существует ли пост
                 if (get_post($attached_post_id)) {
-                    update_post_meta($post_id, '_pykam_qa_attached_post_id', $attached_post_id);
+                    update_post_meta($post_id, self::ATTACHED_POST, $attached_post_id);
                     
                     // Также можно сохранить обратную связь в метаданных прикрепленного поста
                     $this->update_attached_post_meta($attached_post_id, $post_id);
                 } else {
                     // Если пост не существует, очищаем поле
-                    delete_post_meta($post_id, '_pykam_qa_attached_post_id');
+                    delete_post_meta($post_id, self::ATTACHED_POST);
                 }
             } else {
                 // Если ID равен 0, удаляем метаданные
-                delete_post_meta($post_id, '_pykam_qa_attached_post_id');
+                delete_post_meta($post_id, self::ATTACHED_POST);
                 
                 // Удаляем обратную связь
-                $old_attached_post_id = get_post_meta($post_id, '_pykam_qa_attached_post_id', true);
+                $old_attached_post_id = get_post_meta($post_id, self::ATTACHED_POST, true);
                 if ($old_attached_post_id) {
                     $this->remove_attached_post_meta($old_attached_post_id, $post_id);
                 }

@@ -10,6 +10,8 @@ if (!defined('ABSPATH')) {
 }
 
 class PostType {
+
+    const POST_NAME = 'pykam-qa';
     
     public function __construct() {
         add_action('init', array($this, 'register_post_type'));
@@ -53,19 +55,19 @@ class PostType {
             'show_in_rest'       => true,
         );
 
-        register_post_type('pykam-qa', $args);
+        register_post_type(self::POST_NAME, $args);
     }
     
     
     public function hide_from_frontend() {
-        if (is_singular('pykam-qa')) {
+        if (is_singular(self::POST_NAME)) {
             wp_redirect(home_url(), 301);
             exit;
         }
         
         if (!is_admin()) {
             global $wp_query;
-            if (isset($wp_query->query_vars['post_type']) && $wp_query->query_vars['post_type'] == 'pykam-qa') {
+            if (isset($wp_query->query_vars['post_type']) && $wp_query->query_vars['post_type'] == self::POST_NAME) {
                 $wp_query->set_404();
                 status_header(404);
             }
@@ -76,16 +78,16 @@ class PostType {
         if (!is_admin() && $query->is_main_query()) {
             $post_types = $query->get('post_type');
             if (is_array($post_types)) {
-                $post_types = array_diff($post_types, array('pykam-qa'));
+                $post_types = array_diff($post_types, array(self::POST_NAME));
                 $query->set('post_type', $post_types);
-            } elseif ($post_types == 'pykam-qa') {
+            } elseif ($post_types == self::POST_NAME) {
                 $query->set('post_type', 'post');
             }
         }
     }
     
     public function disable_feed() {
-        if (is_feed() && get_query_var('post_type') == 'pykam-qa') {
+        if (is_feed() && get_query_var('post_type') == self::POST_NAME) {
             wp_die(__('The feed is not available for this type of post', 'pykam-qa'), '', array('response' => 404));
         }
     }
