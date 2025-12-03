@@ -1,11 +1,10 @@
 <?php
-
 namespace PykamQA;
 
 if (!defined('ABSPATH')) exit;
 
 /**
- * Q&A admin metabox
+ * CPT metaboxes
  */
 class MetaBox {
     
