@@ -44,7 +44,10 @@ function pykam_qa_init() {
 }
 
 /**
- * 
+ * Initializes and outputs PykamQA component
+ *
+ * @param int $post_id Attached post ID. Use 0 for the current post
+ * @param int $count Maximum number of values to return. 0 = unlimited
  */
 function pykam_qa(int $post_id = 0, int $count = 0): void
 {
