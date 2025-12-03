@@ -39,6 +39,7 @@ function pykam_qa_init() {
 	new \PykamQA\PostType();
 	new \PykamQA\MetaBox();
 	new \PykamQA\Assets();
+	new \PykamQA\TableColumns();
 	
 }
 
