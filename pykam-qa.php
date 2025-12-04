@@ -58,6 +58,6 @@ function pykam_qa_init() {
  */
 function pykam_qa(int $post_id = 0, int $count = 0): void
 {
-	$pykam_qa = new \PykamQA\PykamQA();
+	$pykam_qa = new \PykamQA\PykamQA($count, $post_id);
 	$pykam_qa->print();
 }
