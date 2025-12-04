@@ -3,7 +3,10 @@
  * Plugin Name: Q&A
  * Description: Simple Q&A section
  * Author: Albert Kuular <albert.kuular@gmail.com>
+ * Version: 1.0.0
+ * Text Domain: pykam-qa
  * Domain Path: /languages
+ * Requires PHP: 7.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -27,9 +30,11 @@ define( 'PYKAM_QA_PATH', __DIR__ );
 /**
  * URL to the plugin
  */
-define('PYKAM_QA_URL', plugin_dir_url( __FILE__ ));
+define( 'PYKAM_QA_URL', plugin_dir_url( __FILE__ ) );
 
-require constant('PYKAM_QA_PATH') . '/vendor/autoload.php';
+require constant( 'PYKAM_QA_PATH' ) . '/vendor/autoload.php';
+
+use PykamQA\Plugin;
 
 add_action( 'plugins_loaded', 'pykam_qa_init' );
 
@@ -42,11 +47,7 @@ function pykam_qa_init() {
 
 	load_plugin_textdomain( 'pykam-qa', false, '/pykam-qa/languages' );
 
-	new \PykamQA\PostType();
-	new \PykamQA\MetaBox();
-	new \PykamQA\Assets();
-	new \PykamQA\TableColumns();
-	
+	Plugin::make()->boot();
 }
 
 /**
@@ -56,8 +57,7 @@ function pykam_qa_init() {
  * @param int $post_id Attached post ID. Use 0 for the current post
  * @return void
  */
-function pykam_qa(int $count = 0, int $post_id = 0): void
-{
-	$pykam_qa = new \PykamQA\PykamQA($count, $post_id);
+function pykam_qa( int $count = 0, int $post_id = 0 ): void {
+	$pykam_qa = new \PykamQA\PykamQA( $count, $post_id );
 	$pykam_qa->print();
 }
