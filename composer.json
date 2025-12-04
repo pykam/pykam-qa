@@ -19,7 +19,9 @@
     "require-dev": {
         "phpcompatibility/php-compatibility": "*",
         "wp-coding-standards/wpcs": "*",
-        "squizlabs/php_codesniffer": "*"
+        "squizlabs/php_codesniffer": "*",
+        "phpunit/phpunit": "^9.5",
+        "brain/monkey": "^2.6"
     },
     "config": {
         "allow-plugins": {
