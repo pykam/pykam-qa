@@ -1,6 +1,7 @@
 {
     "name": "pykam/pykam-qa",
     "description": "A Q&A Wordpress plugin",
+    "type": "wordpress-plugin",
     "autoload": {
         "psr-4": {
             "PykamQA\\": "src/"
@@ -12,5 +13,17 @@
             "email": "albert.kuular@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "phpcompatibility/php-compatibility": "*",
+        "wp-coding-standards/wpcs": "*",
+        "squizlabs/php_codesniffer": "*"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
 }
