@@ -2,3 +2,9 @@
 node-modules
 vendor
 roadmap.txt
+.phpunit.result.cache
+
+# Optional local test output files
+test-output.txt
+phpunit-full-output.txt
+test-results.xml
