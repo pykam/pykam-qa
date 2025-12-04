@@ -12,7 +12,6 @@ class PykamQA
     protected $count;
 
     /**
-     * @param int $count   Number of Q&A posts to display. 0 = unlimited.
      * @param int $post_id Post ID to attach Q&A entries to. 0 uses current post.
      */
     public function __construct(int $count = 0, int $post_id = 0)
@@ -23,7 +22,6 @@ class PykamQA
     /**
      * Initializes the instance with resolved post ID and count.
      *
-     * @param int $count
      * @param int $post_id
      *
      * @return void
