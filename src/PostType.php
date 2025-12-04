@@ -1,18 +1,20 @@
 <?php
 namespace PykamQA;
 
-/**
- * Q&A post type
- */
-
 if (!defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * Registers and configures the custom post type that stores Q&A entries.
+ */
 class PostType {
 
     const POST_NAME = 'pykam-qa';
     
+    /**
+     * Hooks WordPress actions used by the post type.
+     */
     public function __construct() {
         add_action('init', array($this, 'register_post_type'));
         add_action('template_redirect', array($this, 'hide_from_frontend'));
@@ -20,6 +22,11 @@ class PostType {
         add_action('template_redirect', array($this, 'disable_feed'));
     }
     
+    /**
+     * Registers the custom post type used for questions and answers.
+     *
+     * @return void
+     */
     public function register_post_type() {
             $labels = array(
             'name'               => __('Pykam QA', 'pykam-qa'),
@@ -59,6 +66,11 @@ class PostType {
     }
     
     
+    /**
+     * Prevents direct access to single Q&A posts.
+     *
+     * @return void
+     */
     public function hide_from_frontend() {
         if (is_singular(self::POST_NAME)) {
             wp_redirect(home_url(), 301);
@@ -74,6 +86,13 @@ class PostType {
         }
     }
     
+    /**
+     * Removes the Q&A post type from public queries and widgets.
+     *
+     * @param \WP_Query $query
+     *
+     * @return void
+     */
     public function exclude_from_widgets($query) {
         if (!is_admin() && $query->is_main_query()) {
             $post_types = $query->get('post_type');
@@ -86,6 +105,11 @@ class PostType {
         }
     }
     
+    /**
+     * Disables RSS feeds for the custom post type.
+     *
+     * @return void
+     */
     public function disable_feed() {
         if (is_feed() && get_query_var('post_type') == self::POST_NAME) {
             wp_die(__('The feed is not available for this type of post', 'pykam-qa'), '', array('response' => 404));

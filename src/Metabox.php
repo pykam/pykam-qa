@@ -4,7 +4,7 @@ namespace PykamQA;
 if (!defined('ABSPATH')) exit;
 
 /**
- * CPT metaboxes
+ * Handles metabox rendering, saving, and AJAX helpers for Q&A posts.
  */
 class MetaBox {
 
@@ -14,12 +14,20 @@ class MetaBox {
     const ANSWER_DATE = '_pykam_qa_answer_date';
     const ATTACHED_POST = '_pykam_qa_attached_post_id';
     
+    /**
+     * Registers WordPress hooks for metabox management and AJAX actions.
+     */
     public function __construct() {
         add_action('add_meta_boxes', array($this, 'register_metaboxes'));
         add_action('save_post_pykam-qa', array($this, 'save_metaboxes'), 10, 2);
         add_action('wp_ajax_pykam_qa_get_posts', array($this, 'ajax_get_posts'));
     }
     
+    /**
+     * Registers all metaboxes used by the custom post type.
+     *
+     * @return void
+     */
     public function register_metaboxes() {
         add_meta_box(
             'pykam_qa_main',
@@ -50,6 +58,13 @@ class MetaBox {
 
     }
     
+    /**
+     * Renders the main metabox containing the rich text editor for the answer.
+     *
+     * @param \WP_Post $post
+     *
+     * @return void
+     */
     public function render_main_metabox($post) {
         wp_nonce_field(basename(__FILE__), 'pykam_qa_fields_nonce');
         
@@ -58,7 +73,7 @@ class MetaBox {
         ?>
         <div class="pykam-qa-container">
             
-            <!-- Rich Text Editor для ответа -->
+            <!-- Rich Text Editor for the answer -->
             <div class="pykam-field-group pykam-border-green">
                 <label for="answer_content">
                     <strong><?php _e('Answer:', 'pykam-qa'); ?></strong>
@@ -79,9 +94,16 @@ class MetaBox {
         <?php
     }
 
+    /**
+     * Renders the metabox that links a Q&A entry to another post.
+     *
+     * @param \WP_Post $post
+     *
+     * @return void
+     */
     public function render_relations_metabox($post) {
         
-        // Получаем прикрепленный пост
+        // Retrieve the currently attached post
         $attached_post_id = get_post_meta($post->ID, self::ATTACHED_POST, true);
         $attached_post_title = '';
         
@@ -92,18 +114,18 @@ class MetaBox {
             }
         }
         
-        // Получаем типы постов для селекта
+        // Fetch public post types for the dropdown
         $post_types = get_post_types(array('public' => true), 'objects');
         ?>
         <div class="pykam-relations-fields">
             
-            <!-- Скрытое поле для ID прикрепленного поста -->
+            <!-- Hidden field for the attached post ID -->
             <input type="hidden" 
                    id="pykam_qa_attached_post_id" 
                    name="pykam_qa_attached_post_id" 
                    value="<?php echo esc_attr($attached_post_id); ?>">
             
-            <!-- Поле для отображения названия поста -->
+            <!-- Field that displays the attached post title -->
             <div class="pykam-field-group">
                 <label for="attached_post_display">
                     <strong><?php _e('Attached to post:', 'pykam-qa'); ?></strong>
@@ -157,7 +179,7 @@ class MetaBox {
                 <?php endif; ?>
             </div>
             
-            <!-- Фильтр по типу поста -->
+            <!-- Post type filter -->
             <div class="pykam-field-group">
                 <label for="post_type_filter">
                     <strong><?php _e('Filter by post type:', 'pykam-qa'); ?></strong>
@@ -174,7 +196,7 @@ class MetaBox {
                 </select>
             </div>
             
-            <!-- Информация -->
+            <!-- Info box -->
             <div class="pykam-info-box">
                 <p style="margin: 0 0 5px 0; font-size: 12px;">
                     <strong><?php _e('Note:', 'pykam-qa'); ?></strong><br>
@@ -184,7 +206,7 @@ class MetaBox {
             
         </div>
         
-        <!-- Модальное окно для выбора поста -->
+        <!-- Modal window used to select a post -->
         <div id="pykam-qa-post-selector" style="display: none;">
             <div class="pykam-modal-content">
                 <div class="pykam-modal-header">
@@ -204,7 +226,7 @@ class MetaBox {
                     </div>
                     
                     <div id="posts_list_container">
-                        <!-- Список постов будет загружен через AJAX -->
+                        <!-- Post list is injected via AJAX -->
                         <div class="loading" style="text-align: center; padding: 20px;">
                             <?php _e('Loading posts...', 'pykam-qa'); ?>
                         </div>
@@ -217,6 +239,13 @@ class MetaBox {
         <?php
     }
     
+    /**
+     * Renders the sidebar metabox with additional metadata fields.
+     *
+     * @param \WP_Post $post
+     *
+     * @return void
+     */
     public function render_additional_metabox($post) {
 
         $fields = $this->get_field_values($post->ID);
@@ -224,7 +253,7 @@ class MetaBox {
         ?>
         <div class="pykam-side-fields">
 
-            <!-- Поле: Имя автора вопроса -->
+            <!-- Field: Question author name -->
             <div class="pykam-field-group pykam-border-green">
                 <label for="question_author">
                     <strong><?php _e('Question Author:', 'pykam-qa'); ?></strong>
@@ -237,7 +266,7 @@ class MetaBox {
                        placeholder="<?php _e('Enter name', 'pykam-qa'); ?>">
             </div>
             
-            <!-- Поле: Дата ответа -->
+            <!-- Field: Answer date -->
             <div class="pykam-field-group">
                 <label for="answer_date">
                     <strong><?php _e('Answer Date:', 'pykam-qa'); ?></strong>
@@ -249,7 +278,7 @@ class MetaBox {
                        style="width:100%">
             </div>
 
-            <!-- Поле: Имя ответившего -->
+            <!-- Field: Answer author name -->
             <div class="pykam-field-group">
                 <label for="answer_author">
                     <strong><?php _e('Answer Author:', 'pykam-qa'); ?></strong>
@@ -262,7 +291,7 @@ class MetaBox {
                        placeholder="<?php _e('Enter expert name', 'pykam-qa'); ?>">
             </div>
             
-            <!-- Информация -->
+            <!-- Information box -->
             <div class="pykam-info-box">
                 <p><strong><?php _e('Created:', 'pykam-qa'); ?></strong> 
                 <?php echo get_the_date('', $post); ?></p>
@@ -274,6 +303,13 @@ class MetaBox {
         <?php
     }
     
+    /**
+     * Retrieves and normalizes all saved meta values for the provided post.
+     *
+     * @param int $post_id
+     *
+     * @return array
+     */
     private function get_field_values($post_id) {
         return array(
             'question_author' => get_post_meta($post_id, self::QUESTION_AUTHOR, true),
@@ -283,6 +319,14 @@ class MetaBox {
         );
     }
     
+    /**
+     * Validates and saves metabox data whenever the custom post type is saved.
+     *
+     * @param int      $post_id
+     * @param \WP_Post $post
+     *
+     * @return void|int
+     */
     public function save_metaboxes($post_id, $post) {
 
         if (!isset($_POST['pykam_qa_fields_nonce']) || 
@@ -290,41 +334,38 @@ class MetaBox {
             return $post_id;
         }
         
-        // Проверка автосохранения
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
             return;
         }
 
-        // Проверка типа поста
         if ($post->post_type !== 'pykam-qa') {
             return $post_id;
         }
         
-        // Проверка прав пользователя
         if (!current_user_can('edit_post', $post_id)) {
             return;
         }
-        
-        // Сохранение прикрепленного поста
+    
+        // Save attached post ID
         if (isset($_POST['pykam_qa_attached_post_id'])) {
             $attached_post_id = intval($_POST['pykam_qa_attached_post_id']);
             
             if ($attached_post_id > 0) {
-                // Проверяем, существует ли пост
+                // Confirm the post exists
                 if (get_post($attached_post_id)) {
                     update_post_meta($post_id, self::ATTACHED_POST, $attached_post_id);
                     
-                    // Также можно сохранить обратную связь в метаданных прикрепленного поста
+                    // Store reverse relation on the attached post
                     $this->update_attached_post_meta($attached_post_id, $post_id);
                 } else {
-                    // Если пост не существует, очищаем поле
+                    // Remove value if the post does not exist
                     delete_post_meta($post_id, self::ATTACHED_POST);
                 }
             } else {
-                // Если ID равен 0, удаляем метаданные
+                // Remove metadata when nothing is attached
                 delete_post_meta($post_id, self::ATTACHED_POST);
                 
-                // Удаляем обратную связь
+                // Remove reverse relation
                 $old_attached_post_id = get_post_meta($post_id, self::ATTACHED_POST, true);
                 if ($old_attached_post_id) {
                     $this->remove_attached_post_meta($old_attached_post_id, $post_id);
@@ -332,11 +373,11 @@ class MetaBox {
             }
         }
         
-        // Обработка данных
+        // Save the remaining fields
         if (isset($_POST['pykam_qa'])) {
             $data = $_POST['pykam_qa'];
             
-            // Сохраняем каждое поле
+            // Sanitize each field independently
             $fields = array(
                 'question_author' => 'sanitize_text_field',
                 'answer_content' => 'wp_kses_post',
@@ -358,33 +399,53 @@ class MetaBox {
         }
     }
 
+    /**
+     * Adds the current Q&A post to the attached post meta list.
+     *
+     * @param int $attached_post_id
+     * @param int $qa_post_id
+     *
+     * @return void
+     */
     private function update_attached_post_meta($attached_post_id, $qa_post_id) {
-        // Получаем текущий список прикрепленных Q&A
+        // Retrieve current list of attached Q&A posts
         $attached_qas = get_post_meta($attached_post_id, '_pykam_qa_attached_qas', true);
         
         if (!is_array($attached_qas)) {
             $attached_qas = array();
         }
         
-        // Добавляем текущий Q&A, если его еще нет
+        // Append the current Q&A if it has not been registered yet
         if (!in_array($qa_post_id, $attached_qas)) {
             $attached_qas[] = $qa_post_id;
             update_post_meta($attached_post_id, '_pykam_qa_attached_qas', $attached_qas);
         }
     }
 
+    /**
+     * Removes the current Q&A post from the attached post meta list.
+     *
+     * @param int $attached_post_id
+     * @param int $qa_post_id
+     *
+     * @return void
+     */
     private function remove_attached_post_meta($attached_post_id, $qa_post_id) {
-        // Получаем текущий список прикрепленных Q&A
+        // Retrieve current list of attached Q&A posts
         $attached_qas = get_post_meta($attached_post_id, '_pykam_qa_attached_qas', true);
         
         if (is_array($attached_qas)) {
-            // Удаляем Q&A из списка
+            // Remove the Q&A from the list
             $attached_qas = array_diff($attached_qas, array($qa_post_id));
             update_post_meta($attached_post_id, '_pykam_qa_attached_qas', $attached_qas);
         }
     }
 
-    // AJAX обработчик для получения постов
+    /**
+     * AJAX handler that returns posts for the selector modal.
+     *
+     * @return void
+     */
     public function ajax_get_posts() {
         check_ajax_referer('pykam_qa_get_posts_nonce', 'nonce');
         
@@ -399,7 +460,7 @@ class MetaBox {
             'paged' => $page,
             'orderby' => 'title',
             'order' => 'ASC',
-            'post__not_in' => array(get_the_ID()), // Исключаем текущий пост
+            'post__not_in' => array(get_the_ID()), // Exclude the current post
         );
         
         if (!empty($search)) {
