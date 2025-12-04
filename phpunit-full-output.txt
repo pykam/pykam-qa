@@ -1,2 +1,0 @@
-PHPUnit 9.6.30 by Sebastian Bergmann and contributors.
-
