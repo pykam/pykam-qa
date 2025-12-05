@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<ruleset name="pykam-qa ruleset">
+    <!-- Base on WordPress rules -->
+    <rule ref="WordPress" />
+
+    <!--
+        WPCS enforces file names like "class-foo.php" for class files.
+        Our codebase uses PSR-4/Composer (e.g. src/Assets.php) so
+        disabling that sniff for the `src/` folder avoids false positives
+        while keeping WPCS active for other files.
+    -->
+    <rule ref="WordPress.Files.FileName">
+        <exclude-pattern>src/*</exclude-pattern>
+    </rule>
+
+    <!-- You can add other project-specific overrides here -->
+</ruleset>
