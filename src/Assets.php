@@ -32,8 +32,6 @@ class Assets {
 
 		if ( ( $hook === 'post.php' || $hook === 'post-new.php' ) && $post_type === 'pykam-qa' ) {
 			wp_enqueue_script( 'jquery' );
-			wp_enqueue_style( 'wp-jquery-ui-dialog' );
-			wp_enqueue_script( 'jquery-ui-dialog' );
 
 			// Admin CSS
 			wp_enqueue_style( 'pykam-qa-admin', constant( 'PYKAM_QA_URL' ) . '/assets/admin/styles.css' );
@@ -42,7 +40,7 @@ class Assets {
 			wp_enqueue_script(
 				'pykam-qa-admin',
 				constant( 'PYKAM_QA_URL' ) . '/assets/admin/scripts.js',
-				array( 'jquery', 'jquery-ui-dialog' ),
+				array( 'jquery' ),
 				defined( 'PYKAM_QA_VERSION' ) ? PYKAM_QA_VERSION : false,
 				true
 			);
@@ -52,6 +50,8 @@ class Assets {
 				'pykamQaAdmin',
 				array(
 					'ajax_url' => admin_url( 'admin-ajax.php' ),
+					'rest_url' => esc_url_raw( rest_url( 'pykam-qa/v1/posts' ) ),
+					'rest_nonce' => wp_create_nonce( 'wp_rest' ),
 					'nonce' => wp_create_nonce( 'pykam_qa_get_posts_nonce' ),
 					'i18n' => array(
 						'loadingPosts' => __( 'Loading posts...', 'pykam-qa' ),

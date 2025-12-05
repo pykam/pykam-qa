@@ -30,6 +30,7 @@ class MetaBox {
 		add_action( 'add_meta_boxes', array( $this, 'register_metaboxes' ) );
 		add_action( 'save_post_pykam-qa', array( $this, 'save_metaboxes' ), 10, 2 );
 		add_action( 'wp_ajax_pykam_qa_get_posts', array( $this, 'ajax_get_posts' ) );
+		add_action( 'rest_api_init', array( $this, 'register_rest_routes' ) );
 	}
 
 	/**
@@ -133,7 +134,7 @@ class MetaBox {
 				   name="pykam_qa_attached_post_id" 
 				   value="<?php echo esc_attr( $attached_post_id ); ?>">
 			
-			<!-- Field that displays the attached post title -->
+			<!-- Field that displays the attached post title and allows inline search -->
 		<div class="pykam-field-group">
 			<label for="attached_post_display">
 				<strong><?php esc_html_e( 'Attached to post:', 'pykam-qa' ); ?></strong>
@@ -142,45 +143,29 @@ class MetaBox {
 					<input type="text" 
 						   id="attached_post_display" 
 						   value="<?php echo esc_attr( $attached_post_title ); ?>"
-						   class="widefat"
-						   readonly
-						   placeholder="<?php esc_attr_e( 'No post selected', 'pykam-qa' ); ?>">
+						   class="widefat pykam-qa-post-search"
+						   placeholder="<?php esc_attr_e( 'Search posts...', 'pykam-qa' ); ?>">
+						<div id="pykam_qa_suggestions" class="pykam-qa-suggestions" style="display:none;"></div>
 					
 					<div class="attached-post-actions">
-						<button type="button" 
-								class="button button-small select-post-btn" 
-								data-target="#pykam_qa_attached_post_id"
-					data-display="#attached_post_display">
-					<?php esc_html( 'Select Post', 'pykam-qa' ); ?>
-				</button>						<?php if ( $attached_post_id ) : ?>
+						<?php if ( $attached_post_id ) : ?>
 						<button type="button" 
 								class="button button-small remove-post-btn" 
 								data-target="#pykam_qa_attached_post_id"
-					data-display="#attached_post_display">
-					<?php esc_html_e( 'Remove', 'pykam-qa' ); ?>
-				</button>						<a href="<?php echo esc_url( get_edit_post_link( $attached_post_id ) ); ?>" 
-						   class="button button-small" 
+						data-display="#attached_post_display">
+						<?php esc_html_e( 'Remove', 'pykam-qa' ); ?>
+					</button>
+						<a href="<?php echo esc_url( get_edit_post_link( $attached_post_id ) ); ?>" 
+						   class="button button-small pykam-qa-edit-selected-post" 
 						   target="_blank"
 						   style="margin-top: 5px; display: inline-block;">
 							<?php _e( 'Edit Post', 'pykam-qa' ); ?>
 						</a>
+						<?php else : ?>
+						<a href="#" class="button button-small pykam-qa-edit-selected-post" style="display:none; margin-top:5px;">&nbsp;</a>
 						<?php endif; ?>
 					</div>
 				</div>
-				
-				<?php if ( $attached_post_id ) : ?>
-			<div class="attached-post-info" style="margin-top: 10px; padding: 8px; background: #f0f0f1; border-radius: 3px;">
-				<p style="margin: 0 0 5px 0;">
-					<strong><?php esc_html_e( 'Current post:', 'pykam-qa' ); ?></strong><br>
-					<a href="<?php echo esc_url( get_permalink( $attached_post_id ) ); ?>" target="_blank">
-						<?php echo esc_html( $attached_post_title ); ?>
-					</a>
-				</p>
-					<p style="margin: 0; font-size: 12px; color: #666;">
-						ID: <?php echo esc_html( $attached_post_id ); ?>
-					</p>
-				</div>
-				<?php endif; ?>
 			</div>
 			
 			<!-- Post type filter -->
@@ -210,36 +195,7 @@ class MetaBox {
 			
 		</div>
 		
-		<!-- Modal window used to select a post -->
-		<div id="pykam-qa-post-selector" style="display: none;">
-			<div class="pykam-modal-content">
-				<div class="pykam-modal-header">
-					<h2><?php esc_html_e( 'Select Post', 'pykam-qa' ); ?></h2>
-					<button type="button" class="pykam-modal-close">&times;</button>
-				</div>
-				
-				<div class="pykam-modal-body">
-					<div class="post-search-box">
-						<input type="text" 
-							   id="post_search_input" 
-							   placeholder="<?php _e( 'Search posts...', 'pykam-qa' ); ?>"
-							   class="widefat">
-						<button type="button" id="post_search_btn" class="button">
-							<?php esc_html_e( 'Search', 'pykam-qa' ); ?>
-						</button>
-					</div>
-					
-					<div id="posts_list_container">
-						<!-- Post list is injected via AJAX -->
-						<div class="loading" style="text-align: center; padding: 20px;">
-							<?php _e( 'Loading posts...', 'pykam-qa' ); ?>
-						</div>
-					</div>
-					
-					<div class="posts-pagination"></div>
-				</div>
-			</div>
-		</div>
+
 		<?php
 	}
 
@@ -331,34 +287,77 @@ class MetaBox {
 	 *
 	 * @return void|int
 	 */
-	public function save_metaboxes( $post_id, $post ) {
+    public function save_metaboxes($post_id, $post) {
 
-		if ( ! isset( $_POST['pykam_qa_fields_nonce'] ) ||
-			! wp_verify_nonce( $_POST['pykam_qa_fields_nonce'], basename( __FILE__ ) ) ) {
-			return $post_id;
-		}
+        if (!isset($_POST['pykam_qa_fields_nonce']) || 
+            !wp_verify_nonce($_POST['pykam_qa_fields_nonce'], basename(__FILE__))) {
+            return $post_id;
+        }
+        
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+            return;
+        }
 
-		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-			return;
-		}
+        if ($post->post_type !== 'pykam-qa') {
+            return $post_id;
+        }
+        
+        if (!current_user_can('edit_post', $post_id)) {
+            return;
+        }
+    
+        // Save attached post ID
+        if (isset($_POST['pykam_qa_attached_post_id'])) {
+            $attached_post_id = intval($_POST['pykam_qa_attached_post_id']);
+            
+            if ($attached_post_id > 0) {
+                // Confirm the post exists
+                if (get_post($attached_post_id)) {
+                    update_post_meta($post_id, self::ATTACHED_POST, $attached_post_id);
+                    
+                    // Store reverse relation on the attached post
+                    $this->update_attached_post_meta($attached_post_id, $post_id);
+                } else {
+                    // Remove value if the post does not exist
+                    delete_post_meta($post_id, self::ATTACHED_POST);
+                }
+            } else {
+                // Remove metadata when nothing is attached
+                delete_post_meta($post_id, self::ATTACHED_POST);
+                
+                // Remove reverse relation
+                $old_attached_post_id = get_post_meta($post_id, self::ATTACHED_POST, true);
+                if ($old_attached_post_id) {
+                    $this->remove_attached_post_meta($old_attached_post_id, $post_id);
+                }
+            }
+        }
+        
+        // Save the remaining fields
+        if (isset($_POST['pykam_qa'])) {
+            $data = $_POST['pykam_qa'];
+            
+            // Sanitize each field independently
+            $fields = array(
+                'question_author' => 'sanitize_text_field',
+                'answer_content' => 'wp_kses_post',
+                'answer_author' => 'sanitize_text_field',
+                'answer_date' => 'sanitize_text_field',
+            );
 
-		if ( $post->post_type !== 'pykam-qa' ) {
-			return $post_id;
-		}
-
-		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			return;
-		}
-
-		// .
-		if ( $old_attached_post_id && $old_attached_post_id != $attached_post_id ) {
-			$this->remove_attached_post_meta( $old_attached_post_id, $post_id );
-		} else {
-			// .
-			update_post_meta( $post_id, '_pykam_qa_' . $field, $value );
-		}
-	}
-
+            // $fields['answer_date'] = strtotime($fields['answer_date']);
+            
+            foreach ($fields as $field => $sanitize_callback) {
+                if (isset($data[$field])) {
+                    $value = call_user_func($sanitize_callback, $data[$field]);
+                    if ($field === 'answer_date') {
+                        $value = strtotime($value);
+                    }
+                    update_post_meta($post_id, '_pykam_qa_' . $field, $value);
+                }
+            }
+        }
+    }
 
 	/**
 	 * Adds the current Q&A post to the attached post meta list.
@@ -369,7 +368,9 @@ class MetaBox {
 	 * @return void
 	 */
 	private function update_attached_post_meta( $attached_post_id, $qa_post_id ) {
-		// .
+		
+		// Retrieve current list of attached Q&A posts
+        $attached_qas = get_post_meta($attached_post_id, '_pykam_qa_attached_qas', true);
 		if ( ! is_array( $attached_qas ) ) {
 			$attached_qas = array();
 		}
@@ -457,6 +458,79 @@ class MetaBox {
 				'total_posts' => $query->found_posts,
 			)
 		);
+	}
+
+	/**
+	 * Registers REST API routes for admin post search (used by inline autocomplete).
+	 */
+	public function register_rest_routes() {
+		register_rest_route(
+			'pykam-qa/v1',
+			'/posts',
+			array(
+				'methods' => 'GET',
+				'callback' => array( $this, 'rest_get_posts' ),
+				'permission_callback' => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			)
+		);
+	}
+
+	/**
+	 * REST handler returning posts for the admin inline selector.
+	 *
+	 * @param \WP_REST_Request $request
+	 * @return \WP_REST_Response
+	 */
+	public function rest_get_posts( \WP_REST_Request $request ) {
+		$search = sanitize_text_field( $request->get_param( 'search' ) );
+		$post_type = sanitize_text_field( $request->get_param( 'post_type' ) );
+		$page = intval( $request->get_param( 'page' ) ) ?: 1;
+		$per_page = intval( $request->get_param( 'per_page' ) ) ?: 10;
+
+		$args = array(
+			'post_type' => $post_type ? array( $post_type ) : 'any',
+			'post_status' => 'publish',
+			'posts_per_page' => $per_page,
+			'paged' => $page,
+			'orderby' => 'title',
+			'order' => 'ASC',
+			'post__not_in' => array( get_the_ID() ),
+		);
+
+		if ( ! empty( $search ) ) {
+			$args['s'] = $search;
+		}
+
+		$query = new \WP_Query( $args );
+
+		$posts = array();
+		if ( $query->have_posts() ) {
+			while ( $query->have_posts() ) {
+				$query->the_post();
+
+				$post_type_obj = get_post_type_object( get_post_type() );
+
+				$posts[] = array(
+					'ID' => get_the_ID(),
+					'post_title' => get_the_title(),
+					'post_type' => get_post_type(),
+					'post_type_label' => $post_type_obj ? $post_type_obj->labels->singular_name : get_post_type(),
+					'post_date_formatted' => get_the_date( 'd.m.Y' ),
+					'edit_link' => get_edit_post_link( get_the_ID(), '' ),
+				);
+			}
+		}
+
+		wp_reset_postdata();
+
+		return rest_ensure_response( array(
+			'posts' => $posts,
+			'total_pages' => $query->max_num_pages,
+			'current_page' => $page,
+			'total_posts' => $query->found_posts,
+		) );
 	}
 }
 
