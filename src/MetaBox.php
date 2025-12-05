@@ -186,15 +186,6 @@ class MetaBox {
 					<?php endforeach; ?>
 				</select>
 			</div>
-			
-			<!-- Info box -->
-			<div class="pykam-info-box">
-				<p style="margin: 0 0 5px 0; font-size: 12px;">
-					<strong><?php esc_html_e( 'Note:', 'pykam-qa' ); ?></strong><br>
-					<?php esc_html_e( 'Link this Q&A to a specific post. Useful for creating FAQ sections for individual products/articles.', 'pykam-qa' ); ?>
-				</p>
-			</div>
-			
 		</div>
 		
 
