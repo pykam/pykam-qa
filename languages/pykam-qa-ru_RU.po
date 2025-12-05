@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: my-plugin-name\n"
-"POT-Creation-Date: 2025-12-03 14:50+0700\n"
+"POT-Creation-Date: 2025-12-05 20:42+0700\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Myname <myemail@gmail.com>\n"
 "Language-Team: My Super Team\n"
@@ -19,194 +19,192 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: node_modules\n"
 
-#: src/Assets.php:113 src/MetaBox.php:209
+#: src/Assets.php:57
 msgid "Loading posts..."
 msgstr "Загрузка постов..."
 
-#: src/Assets.php:131
-msgid "Error loading posts"
-msgstr "Ошибка загрузки постов"
-
-#: src/Assets.php:158
+#: src/Assets.php:58
 msgid "View"
 msgstr "Смотреть"
 
-#: src/Assets.php:173
-msgid "Previous"
-msgstr "Предыдущий"
-
-#: src/Assets.php:183
-msgid "Next"
-msgstr "Следующий"
-
-#: src/Assets.php:191
-msgid "No posts found"
-msgstr "Посты не найдены"
-
-#: src/Assets.php:213
+#: src/Assets.php:59
 msgid "Post selected successfully!"
 msgstr "Пост выбран!"
 
-#: src/MetaBox.php:26
+#: src/Assets.php:60
+msgid "Error loading posts"
+msgstr "Ошибка загрузки постов"
+
+#: src/Assets.php:61
+msgid "No posts found"
+msgstr "Посты не найдены"
+
+#: src/Assets.php:62
+msgid "Previous"
+msgstr "Предыдущий"
+
+#: src/Assets.php:63
+msgid "Next"
+msgstr "Следующий"
+
+#: src/EditLink.php:59
+msgid "Edit"
+msgstr "Править"
+
+#: src/MetaBox.php:46
 msgid "Answer Details"
 msgstr "Ответ"
 
-#: src/MetaBox.php:35
+#: src/MetaBox.php:55
 msgid "Post Relations"
 msgstr "Связанный пост"
 
-#: src/MetaBox.php:44
+#: src/MetaBox.php:64
 msgid "Additional Information"
 msgstr "Доп. информация"
 
-#: src/MetaBox.php:64
+#: src/MetaBox.php:90
 msgid "Answer:"
 msgstr "Ответ:"
 
-#: src/MetaBox.php:109
+#: src/MetaBox.php:142
 msgid "Attached to post:"
 msgstr "Прикреплено к посту:"
 
-#: src/MetaBox.php:117
-msgid "No post selected"
-msgstr "Нет выбранной записи"
-
-#: src/MetaBox.php:124 src/MetaBox.php:191
-msgid "Select Post"
-msgstr "Выбрать запись"
-
-#: src/MetaBox.php:132
-msgid "Remove"
-msgstr "Удалить"
-
-#: src/MetaBox.php:139
-msgid "Edit Post"
-msgstr "Редактировать пост"
-
-#: src/MetaBox.php:148
-msgid "Current post:"
-msgstr "Текущий пост:"
-
-#: src/MetaBox.php:163
-msgid "Filter by post type:"
-msgstr "Фильтрация по типу постов:"
-
-#: src/MetaBox.php:180
-msgid "Note:"
-msgstr "Заметка:"
-
-#: src/MetaBox.php:181
-msgid ""
-"Link this Q&A to a specific post. Useful for creating FAQ sections for "
-"individual products/articles."
-msgstr ""
-"Свяжите этот вопрос и ответ с конкретным постом. Полезно для создания "
-"разделов часто задаваемых вопросов для отдельных продуктов /статей."
-
-#: src/MetaBox.php:199
+#: src/MetaBox.php:149
 msgid "Search posts..."
 msgstr "Поиск постов..."
 
-#: src/MetaBox.php:202
-msgid "Search"
-msgstr "Поиск"
+#: src/MetaBox.php:158
+msgid "Remove"
+msgstr "Удалить"
 
-#: src/MetaBox.php:230
+#: src/MetaBox.php:164
+msgid "Edit Post"
+msgstr "Редактировать пост"
+
+#: src/MetaBox.php:176
+msgid "Filter by post type:"
+msgstr "Фильтрация по типу постов:"
+
+#: src/MetaBox.php:212
 msgid "Question Author:"
 msgstr "Автор:"
 
-#: src/MetaBox.php:237
+#: src/MetaBox.php:219
 msgid "Enter name"
 msgstr "Введите имя"
 
-#: src/MetaBox.php:243
+#: src/MetaBox.php:225
 msgid "Answer Date:"
 msgstr "Дата:"
 
-#: src/MetaBox.php:255
+#: src/MetaBox.php:237
 msgid "Answer Author:"
 msgstr "Автор:"
 
-#: src/MetaBox.php:262
+#: src/MetaBox.php:244
 msgid "Enter expert name"
 msgstr "Введите имя эксперта"
 
-#: src/MetaBox.php:267
+#: src/MetaBox.php:249
 msgid "Created:"
 msgstr "Создано:"
 
-#: src/MetaBox.php:269
+#: src/MetaBox.php:251
 msgid "Last modified:"
 msgstr "Последнее изменение:"
 
-#: src/PostType.php:25
+#: src/PostType.php:34
 msgid "Pykam QA"
 msgstr "Вопросы и ответы"
 
-#: src/PostType.php:26 src/PostType.php:28
+#: src/PostType.php:35 src/PostType.php:37
 msgid "Question & Answer"
 msgstr "Вопрос - Ответ"
 
-#: src/PostType.php:27
+#: src/PostType.php:36
 msgid "Q&A"
 msgstr "Вопрос - Ответ"
 
-#: src/PostType.php:29
+#: src/PostType.php:38
 msgid "Add New"
 msgstr "Добавить новый"
 
-#: src/PostType.php:30
+#: src/PostType.php:39
 msgid "Add New Question"
 msgstr "Добавить новый вопрос"
 
-#: src/PostType.php:31
+#: src/PostType.php:40
 msgid "New Question"
 msgstr "Новый вопрос"
 
-#: src/PostType.php:32
+#: src/PostType.php:41
 msgid "Edit Question"
 msgstr "Редактировать вопрос"
 
-#: src/PostType.php:33
+#: src/PostType.php:42
 msgid "View Question"
 msgstr "Посмотреть вопрос"
 
-#: src/PostType.php:34
+#: src/PostType.php:43
 msgid "All questions"
 msgstr "Все вопросы"
 
-#: src/PostType.php:35
+#: src/PostType.php:44
 msgid "Search Questions"
 msgstr "Поиск вопросов"
 
-#: src/PostType.php:36
+#: src/PostType.php:45
 msgid "Parent Question:"
 msgstr "Родительский вопрос:"
 
-#: src/PostType.php:37
+#: src/PostType.php:46
 msgid "No questions found."
 msgstr "Вопросы не найдены."
 
-#: src/PostType.php:38
+#: src/PostType.php:47
 msgid "No questions found in the deleted items bin."
 msgstr "В корзине не найдено вопросов."
 
-#: src/PostType.php:91
+#: src/PostType.php:117
 msgid "The feed is not available for this type of post"
 msgstr "Посты не доступны в этом типе записи"
 
-#: src/TableColumns.php:21
+#: src/TableColumns.php:32
 msgid "Related Post"
 msgstr "Связанные посты"
 
-#: template-parts/qa-template.php:12
+#: template-parts/qa-template.php:24
 msgid "Question Date"
 msgstr "Дата"
 
-#: template-parts/qa-template.php:13
+#: template-parts/qa-template.php:27
 msgid "Question Author"
 msgstr "Автор"
 
-#: template-parts/qa-template.php:21
+#: template-parts/qa-template.php:38
 msgid "Respond"
 msgstr "Отвечает"
+
+#~ msgid "No post selected"
+#~ msgstr "Нет выбранной записи"
+
+#~ msgid "Select Post"
+#~ msgstr "Выбрать запись"
+
+#~ msgid "Current post:"
+#~ msgstr "Текущий пост:"
+
+#~ msgid "Note:"
+#~ msgstr "Заметка:"
+
+#~ msgid ""
+#~ "Link this Q&A to a specific post. Useful for creating FAQ sections for "
+#~ "individual products/articles."
+#~ msgstr ""
+#~ "Свяжите этот вопрос и ответ с конкретным постом. Полезно для создания "
+#~ "разделов часто задаваемых вопросов для отдельных продуктов /статей."
+
+#~ msgid "Search"
+#~ msgstr "Поиск"
