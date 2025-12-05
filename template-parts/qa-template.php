@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use PykamQA\MetaBox;
+use PykamQA\EditLink;
 
 $question_author = get_post_meta( get_the_id(), MetaBox::QUESTION_AUTHOR, true );
 $answer_author = get_post_meta( get_the_id(), MetaBox::ANSWER_AUTHOR, true );
@@ -42,4 +43,5 @@ $answer_content = get_post_meta( get_the_id(), MetaBox::ANSWER, true );
 			</div>
 		</div>
 	<?php endif; ?>
+	<?php echo EditLink::getEditLink(get_the_id()) ?>
 </div>
