@@ -25,6 +25,8 @@ class MetaBox {
 
 	/**
 	 * Registers WordPress hooks for metabox management and AJAX actions.
+	 *
+	 * @return void
 	 */
 	public function register(): void {
 		add_action( 'add_meta_boxes', array( $this, 'register_metaboxes' ) );
